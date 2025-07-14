@@ -56,6 +56,7 @@ export function ProjectDashboard() {
   }, [router]);
 
   const loadProjects = async () => {
+    
     try {
       setLoading(true);
       const projectsData = await fetchProjects();
