@@ -331,7 +331,7 @@ export function ProjectDashboard() {
                   )}
                 </div>
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link href={{ pathname: `/project/${project.ProjectID}`, query: { pmName: pmNames[project.CreatedBy] || project.CreatedBy } }}>
+                  <Link href={`/project/${project.ProjectID}`}>
                     <Button className="w-full bg-teal-600 hover:bg-teal-700">
                       Open Workflow
                     </Button>

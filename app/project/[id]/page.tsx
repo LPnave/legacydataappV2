@@ -32,7 +32,8 @@ export default function ProjectPage() {
   const [isAddScreensOpen, setIsAddScreensOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [pmName, setPmName] = useState(pmNameFromQuery || "")
+  const [pmName, setPmName] = useState<string>("");
+  const [pmLoading, setPmLoading] = useState(false);
 
   // Check authentication and load project data
   useEffect(() => {
@@ -42,6 +43,16 @@ export default function ProjectPage() {
     }
     loadProjectData();
   }, [projectId, router]);
+
+  useEffect(() => {
+    if (project && project.CreatedBy) {
+      setPmLoading(true);
+      fetchUserById(project.CreatedBy)
+        .then(user => setPmName(user.Name || user.Email || project.CreatedBy))
+        .catch(() => setPmName(project.CreatedBy))
+        .finally(() => setPmLoading(false));
+    }
+  }, [project]);
 
   const loadProjectData = async () => {
     try {
@@ -239,7 +250,7 @@ export default function ProjectPage() {
     auth.logout();
   }
 
-  if (loading) {
+  if (loading || pmLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
